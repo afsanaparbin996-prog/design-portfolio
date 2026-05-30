@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | Sabnam Parbin - Graphic Designer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #e8e4dc;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Paper texture overlay */
+        .texture-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: transparent;
+            transition: background 0.3s ease;
+        }
+
+        nav.scrolled {
+            background: rgba(232, 228, 220, 0.95);
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-logo {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #333;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #c44536;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: #c44536;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 2px;
+            background: #333;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 100%;
+            height: 100vh;
+            background: #e8e4dc;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            transition: right 0.4s ease;
+            z-index: 99;
+        }
+
+        .mobile-menu.active {
+            right: 0;
+        }
+
+        .mobile-menu a {
+            font-family: 'Oswald', sans-serif;
+            font-size: 2rem;
+            text-decoration: none;
+            color: #333;
+            transition: color 0.3s ease;
+        }
+
+        .mobile-menu a:hover {
+            color: #c44536;
+        }
+
+        /* Hero Section - Portfolio Intro */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 40px;
+            background: linear-gradient(135deg, #e8e4dc 0%, #d9d5cc 100%);
+        }
+
+        .hero-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .vertical-text {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 600;
+            font-size: clamp(1rem, 2vw, 1.4rem);
+            color: #c44536;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            letter-spacing: 0.3em;
+            transform: rotate(180deg);
+            margin-right: 20px;
+        }
+
+        .main-title {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            line-height: 0.85;
+            text-align: left;
+        }
+
+        .main-title .port {
+            font-size: clamp(5rem, 18vw, 14rem);
+            color: #3d3d3d;
+            display: block;
+            letter-spacing: -0.02em;
+        }
+
+        .main-title .folio {
+            font-size: clamp(5rem, 18vw, 14rem);
+            color: #3d3d3d;
+            display: block;
+            letter-spacing: -0.02em;
+        }
+
+        .author-name {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 500;
+            font-size: clamp(0.9rem, 2vw, 1.3rem);
+            letter-spacing: 0.4em;
+            color: #333;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .year-badge {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            background: #3d3d3d;
+            color: #fff;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-family: 'Oswald', sans-serif;
+            font-weight: 600;
+            font-size: 1.2rem;
+            letter-spacing: 0.1em;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            animation: bounce 2s infinite;
+        }
+
+        .scroll-indicator span {
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+
+        .scroll-indicator svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            40% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+            60% {
+                transform: translateX(-50%) translateY(-5px);
+            }
+        }
+
+        /* Section Styles */
+        section {
+            min-height: 100vh;
+            padding: 100px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .section-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 700;
+            color: #3d3d3d;
+            margin-bottom: 40px;
+        }
+
+        .section-title span {
+            color: #c44536;
+        }
+
+        /* About Section */
+        #about {
+            background: #e8e4dc;
+        }
+
+        .about-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .about-text p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            color: #555;
+        }
+
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .skill-tag {
+            background: #3d3d3d;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .about-image {
+            width: 100%;
+            height: 500px;
+            background: linear-gradient(45deg, #c44536, #3d3d3d);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Oswald', sans-serif;
+            font-size: 2rem;
+            color: #fff;
+        }
+
+        /* Logofolio Section */
+        #logofolio {
+            background: #3d3d3d;
+            color: #fff;
+        }
+
+        #logofolio .section-title {
+            color: #fff;
+        }
+
+        .logo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo-card {
+            aspect-ratio: 1;
+            background: #fff;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .logo-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .logo-card img {
+            max-width: 70%;
+            max-height: 70%;
+            object-fit: contain;
+        }
+
+        .logo-placeholder {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.5rem;
+            color: #3d3d3d;
+            text-align: center;
+        }
+
+        .logo-card .overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(196, 69, 54, 0.9));
+            padding: 20px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .logo-card:hover .overlay {
+            transform: translateY(0);
+        }
+
+        .overlay h4 {
+            color: #fff;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.2rem;
+        }
+
+        .overlay p {
+            color: rgba(255,255,255,0.8);
+            font-size: 0.9rem;
+        }
+
+        /* Branding Section */
+        #branding {
+            background: #e8e4dc;
+        }
+
+        .branding-showcase {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .brand-project {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 80px;
+            align-items: center;
+        }
+
+        .brand-project:nth-child(even) {
+            direction: rtl;
+        }
+
+        .brand-project:nth-child(even) > * {
+            direction: ltr;
+        }
+
+        .brand-images {
+            display: block;
+        }
+
+        .brand-identity-img {
+            width: 100%;
+            border-radius: 15px;
+            display: block;
+            transition: transform 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .brand-identity-img:hover {
+            transform: scale(1.02);
+        }
+
+        .brand-info h3 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #3d3d3d;
+        }
+
+        .brand-info p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .brand-tags {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .brand-tag {
+            background: #3d3d3d;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+
+        /* Social Media Section Styles */
+        #social {
+            background: #3d3d3d;
+            color: #fff;
+        }
+
+        #social .section-title {
+            color: #fff;
+        }
+
+        .phones-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+            max-width: 1400px;
+            margin: 0 auto 60px auto;
+        }
+
+        .phone-mockup {
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .phone-mockup:hover {
+            transform: translateY(-10px) rotateY(5deg);
+        }
+
+        .phone-frame {
+            width: 100%;
+            max-width: 250px;
+            margin: 0 auto;
+            background: #1a1a1a;
+            border-radius: 30px;
+            padding: 10px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .phone-screen {
+            background: #fff;
+            border-radius: 20px;
+            aspect-ratio: 9/16;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .phone-content {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .portfolio-item {
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .portfolio-item:hover {
+            transform: translateY(-10px);
+        }
+
+        .tablet-frame {
+            background: #fff;
+            border-radius: 20px;
+            padding: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .portfolio-item:hover .tablet-frame {
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        .tablet-screen {
+            background: #f5f5f5;
+            border-radius: 10px;
+            aspect-ratio: 4/3;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .tablet-content {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .engagement-icons {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            display: flex;
+            gap: 15px;
+            background: rgba(255,255,255,0.9);
+            padding: 8px 12px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .icon {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+            color: #666;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+        }
+
+        .icon::before {
+            content: '';
+            width: 16px;
+            height: 16px;
+            background-size: contain;
+        }
+
+        .icon-heart::before { 
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="%23c44536" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>');
+        }
+
+        .icon-comment::before { 
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="%23666" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>');
+        }
+
+        /* Contact Section */
+        #contact {
+            background: #e8e4dc;
+            text-align: center;
+        }
+
+        .contact-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .thank-you {
+            font-family: 'Oswald', sans-serif;
+            font-size: clamp(4rem, 12vw, 10rem);
+            font-weight: 700;
+            color: #3d3d3d;
+            line-height: 1;
+            margin-bottom: 40px;
+        }
+
+        .thank-you span {
+            color: #c44536;
+        }
+
+        .contact-text {
+            font-size: 1.2rem;
+            color: #555;
+            margin-bottom: 40px;
+            line-height: 1.8;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+
+        .contact-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: #3d3d3d;
+            font-weight: 500;
+            padding: 15px 30px;
+            border: 2px solid #3d3d3d;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-link:hover {
+            background: #3d3d3d;
+            color: #fff;
+        }
+
+        .contact-link svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: #c44536;
+            color: #fff;
+            padding: 20px 50px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            background: #a33a2d;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(196, 69, 54, 0.4);
+        }
+
+        .brand-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 15px;
+        }
+
+        .phone-screen img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Footer */
+        footer {
+            background: #3d3d3d;
+            color: #fff;
+            padding: 40px;
+            text-align: center;
+        }
+
+        footer p {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        /* Modals */
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1001;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: #fff;
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 90%;
+            text-align: center;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .modal.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 2rem;
+            cursor: pointer;
+            z-index: 1002;
+        }
+
+        .modal h3 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 2rem;
+            color: #3d3d3d;
+            margin-bottom: 20px;
+        }
+
+        .modal p {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            .brand-project {
+                grid-template-columns: 1fr;
+            }
+
+            .brand-project:nth-child(even) {
+                direction: ltr;
+            }
+
+            .phones-showcase {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+
+            .portfolio-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 15px 20px;
+            }
+
+            .hero {
+                padding: 20px;
+            }
+
+            .year-badge {
+                top: 80px;
+                right: 20px;
+                padding: 8px 20px;
+                font-size: 1rem;
+            }
+
+            .vertical-text {
+                font-size: 0.8rem;
+            }
+
+            section {
+                padding: 80px 20px;
+            }
+
+            .contact-links {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="texture-overlay"></div>
+
+    <nav id="navbar">
+        <a href="#" class="nav-logo">SP</a>
+        <ul class="nav-links">
+            <li><a href="#hero">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#logofolio">Logofolio</a></li>
+            <li><a href="#branding">Branding</a></li>
+            <li><a href="#social">Social Media</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#hero">Home</a>
+        <a href="#about">About</a>
+        <a href="#logofolio">Logofolio</a>
+        <a href="#branding">Branding</a>
+        <a href="#social">Social Media</a>
+        <a href="#contact">Contact</a>
+    </div>
+
+    <section class="hero" id="hero">
+        <div class="hero-content">
+            <div class="vertical-text">GRAPHIC DESIGNER</div>
+            <div class="main-title">
+                <span class="port">PORT</span>
+                <span class="folio">FOLIO</span>
+                <div class="author-name">SABNAM PARBIN</div>
+            </div>
+        </div>
+        <div class="scroll-indicator" onclick="document.getElementById('about').scrollIntoView({behavior: 'smooth'})">
+            <span>Scroll</span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            </svg>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="about-content">
+            <div class="about-text">
+                <h2 class="section-title">ABOUT <span>ME</span></h2>
+               <p><bold><i>6th August 2006 | sabnamparbinofficial06@gmail.com</i></bold></p>
+                <p>Hello! I'm <b>Sabnam Parbin</b>, a passionate Graphic Designer with a keen eye for creating visually stunning and meaningful designs. With experience in <b>brand identity</b>, <b>logo design</b>, and <b>social media content creation</b>, I help businesses in <b>Food & Beverage Industry</b> and <b>Beauty & Fashion Industry</b> tell their stories through compelling visuals.</p>
+                <p>I believe that great design is not just about aesthetics—it's about solving problems and creating connections. Every project I undertake is an opportunity to bring ideas to life and make a lasting impact.</p>
+                <div class="skills-list">
+                    <span class="skill-tag">Brand Identity</span>
+                    <span class="skill-tag">Logo Design</span>
+                    <span class="skill-tag">Social Media</span>
+                    <span class="skill-tag">Print Design</span>
+                    <span class="skill-tag">Packaging Design</span>
+                </div>
+            </div>
+            <div class="about-image">
+                <img src="assets/me-here.png" alt="about-image">
+            </div>
+        </div>
+    </section>
+
+    <section id="logofolio">
+        <h2 class="section-title">LOGO<span>FOLIO</span></h2>
+        <div class="logo-grid">
+            <div class="logo-card" onclick="openModal('Solistice', 'Brand identity project for a sustainable skincare brand')">
+                <img src="assets/logos/solistice-logo.png" alt="Solistice Logo">
+                <div class="overlay">
+                    <h4>Solistice (Skincare Brand)</h4>
+                    <p>Brand Identity</p>
+                </div>
+            </div>
+            <div class="logo-card" onclick="openModal('Zaffran Restaurant', 'Restaurant logo design')">
+                <img src="assets/logos/zaffran-logo.jpg" alt="Zaffran Restaurant Logo">
+                <div class="overlay">
+                    <h4>Zaffran Restaurant</h4>
+                    <p>Logo Design</p>
+                </div>
+            </div>
+            <div class="logo-card" onclick="openModal('Bloom & Brew', 'Coffee business brand identity')">
+                <img src="assets/logos/bloom-brew-logo.png" alt="Bloom & Brew Logo">
+                <div class="overlay">
+                    <h4>Bloom & Brew</h4>
+                    <p>Brand Identity</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="branding">
+        <h2 class="section-title">BRAND<span>ING</span></h2>
+        <div class="branding-showcase">
+            <div class="brand-project">
+                <div class="brand-images">
+                    <img class="brand-identity-img" src="assets/branding/bloom-brew-brand-identity.png" alt="Bloom & Brew Brand Identity">
+                </div>
+                <div class="brand-info">
+                    <h3>Brand: Bloom & Brew</h3>
+                    <h5><p><i>Industry: Food & Beverage</i></p></h5>
+                    <p><t><b>Bloom & Brew</b> is a herbal coffee brand crafted for corporate professionals seeking calm, focus, and balance in their daily routine. It redefines coffee culture by blending natural wellness with a refined, modern identity.</t></p>
+                    <p><b>Key Features:</b><br>
+                       1. <b>Targeted Audience:</b> Corporate professionals or people with busy lives who want to at least have the privilege of having a calm morning with their favourite flavour of coffee beans.<br>
+                        2. <b>Logo:</b> The split coffee bean with a leaf visually communicates the fusion of coffee and herbal calm—perfectly aligned with the brand idea.<br>
+                         3. <b>Colour Palette:</b> Earthy browns and soft greens evoke nature, relaxation, and wellness—contrasting traditional "high-energy" coffee branding.<br>
+                          4. <b>Typography:</b> It blends editorial sophistication with human-centered clarity, positioning Bloom & Brew between premium coffee culture and modern wellness.<br>
+                    <div class="brand-tags">
+                        <span class="brand-tag">Logo Design</span>
+                        <span class="brand-tag">Color Palette</span>
+                        <span class="brand-tag">Brand Identity</span>
+                        <span class="brand-tag">Coffee Brand</span>
+                    </div>
+                </div>
+            </div>
+            <div class="brand-project">
+                <div class="brand-images">
+                    <img class="brand-identity-img" src="assets/branding/solistice-brand-identity.png" alt="Solistice Brand Identity">
+                </div>
+                <div class="brand-info">
+                    <h3>Brand: Solistice</h3>
+                    <h5><p><i>Industry: Beauty & Skincare</i></p></h5>
+                    <p><t><b>Solistice</b> is a sustainable skincare brand built on plant-based, sun-powered ingredients designed for all genders. It reflects a balance of nature and science through a calm, refined, and conscious brand identity.</t></p>
+                    <p>The client requested a premium, gender-neutral brand identity for a sustainable, plant-based skincare line. They asked for a "quiet luxury" and minimalist aesthetic, utilizing an earthy color palette to convey calmness, refined nature, and intentional daily rituals.</p>
+                    <p><b>Key Features:</b><br>
+                       1. <b>Logo:</b> The star element hints at the sun/solstice concept, reinforcing the idea of sun-powered ingredients without being literal.<br>
+                         2. <b>Colour Palette:</b> The muted green and warm beige palette conveys sustainability, calmness, and skin-friendly purity.<br>
+                          3. <b>Typography:</b> The typography and overall softness avoid overly feminine or masculine cues, making it inclusive and modern.<br>
+                    <div class="brand-tags">
+                        <span class="brand-tag">Skincare</span>
+                        <span class="brand-tag">Gender-Neutral</span>
+                        <span class="brand-tag">Brand Identity</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="social">
+        <h2 class="section-title">SOCIAL <span>MEDIA</span></h2>
+        
+        <div class="phones-showcase">
+            <div class="phone-mockup" onclick="openImageModal('assets/social/post-1.png')">
+                <div class="phone-frame">
+                    <div class="phone-screen">
+                        <img src="assets/social/post-1.png" alt="Social Media Post 1">
+                    </div>
+                </div>
+            </div>
+            <div class="phone-mockup" onclick="openImageModal('assets/social/post-2.png')">
+                <div class="phone-frame">
+                    <div class="phone-screen">
+                        <img src="assets/social/post-2.png" alt="Social Media Post 2">
+                    </div>
+                </div>
+            </div>
+            <div class="phone-mockup" onclick="openImageModal('assets/social/post-3.svg')">
+                <div class="phone-frame">
+                    <div class="phone-screen">
+                        <img src="assets/social/post-3.svg" alt="Social Media Post 3">
+                    </div>
+                </div>
+            </div>
+            <div class="phone-mockup" onclick="openImageModal('assets/social/post-4.png')">
+                <div class="phone-frame">
+                    <div class="phone-screen">
+                        <img src="assets/social/post-4.png" alt="Social Media Post 4">
+                    </div>
+                </div>
+            </div>
+            <div class="phone-mockup" onclick="openImageModal('assets/social/post-5.png')">
+                <div class="phone-frame">
+                    <div class="phone-screen">
+                        <img src="assets/social/post-5.png" alt="Social Media Post 5">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+    <section id="contact">
+        <div class="contact-content">
+            <h2 class="thank-you">THANK <span>YOU</span></h2>
+            <p class="contact-text">I'm always excited to work on new projects and collaborate with amazing people. Let's create something beautiful together!</p>
+            <div class="contact-links">
+                <a href="mailto:sabnamparbinofficial06@gmail.com" class="contact-link" target="_blank">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2-2v10a2 2 0 002 2z" />
+                    </svg>
+                    Email Me
+                </a>
+                <a href="https://www.instagram.com/supwithsabnam_?utm_source=qr&igsh=azJiZm40dmF1cXd1" class="contact-link" target="_blank">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                    Instagram
+                </a>
+                <a href="https://www.linkedin.com/in/sabnam-parbin-b0b412374/" class="contact-link" target="_blank">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z" />
+                    </svg>
+                    LinkedIn
+                </a>
+            </div>
+            <button class="cta-button" onclick="openContactModal()">LET'S WORK TOGETHER</button>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2026 Sabnam Parbin. All rights reserved.</p>
+    </footer>
+
+    <div class="modal" id="modal">
+        <button class="modal-close" onclick="closeModal()">&times;</button>
+        <div class="modal-content">
+            <h3 id="modalTitle">Project Title</h3>
+            <p id="modalDescription">Project description goes here.</p>
+        </div>
+    </div>
+
+    <div class="modal" id="imageModal">
+        <button class="modal-close" onclick="closeImageModal()">&times;</button>
+        <div class="modal-content" style="background: transparent; padding: 0; box-shadow: none; max-width: 90vh;">
+            <img id="imageModalSrc" src="" alt="Enlarged view" style="width: 100%; height: auto; border-radius: 10px; max-height: 85vh; object-fit: contain;">
+        </div>
+    </div>
+
+    <script>
+        // Navigation scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile menu toggle
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                mobileMenu.classList.remove('active');
+            });
+        });
+
+        // Text Modal functions
+        function openModal(title, description) {
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalDescription').textContent = description;
+            document.getElementById('modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function openContactModal() {
+            openModal("Let's Connect!", "Feel free to reach out via email at sabnamparbinofficial06@gmail.com or connect with me on social media. I'd love to hear about your project!");
+        }
+
+        // Image Modal functions
+        function openImageModal(imgSrc) {
+            document.getElementById('imageModalSrc').src = imgSrc;
+            document.getElementById('imageModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeImageModal() {
+            document.getElementById('imageModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Close text modal on background click
+        document.getElementById('modal').addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                closeModal();
+            }
+        });
+
+        // Close image modal on background click
+        document.getElementById('imageModal').addEventListener('click', (e) => {
+            if (e.target.id === 'imageModal') {
+                closeImageModal();
+            }
+        });
+
+        // Close modals on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+                closeImageModal();
+            }
+        });
+
+        // Smooth scroll for all anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add entrance animations on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for animation
+        document.querySelectorAll('.logo-card, .brand-project, .phone-mockup, .portfolio-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
