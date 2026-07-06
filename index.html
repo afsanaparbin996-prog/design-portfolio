@@ -327,17 +327,22 @@
         }
 
         .about-image {
-            width: 100%;
-            height: 500px;
-            background: linear-gradient(45deg, #5E3C6D, #C89FB1);
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Oswald', sans-serif;
-            font-size: 2rem;
-            color: #fff;
-        }
+    width: 100%;
+    height: 500px;
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #FAF7F2;
+}
+
+.about-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
 
         /* Logofolio Section */
         #logofolio {
@@ -358,28 +363,27 @@
         }
 
         .logo-card {
-            aspect-ratio: 1;
-            background: #fff;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            overflow: hidden;
-            position: relative;
-        }
+    aspect-ratio: 1;
+    background: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
 
         .logo-card:hover {
             transform: translateY(-10px);
             box-shadow: 0 20px 40px rgba(0,0,0,0.3);
         }
 
-        .logo-card img {
-            max-width: 70%;
-            max-height: 70%;
-            object-fit: contain;
-        }
+      .logo-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
 
         .logo-placeholder {
             font-family: 'Oswald', sans-serif;
